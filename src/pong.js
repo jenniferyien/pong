@@ -71,7 +71,11 @@
     ball.y = (height - ball.side)/2;
   }
 
-  function update(){}
+  function update(){
+    player.update();
+    ball.update();
+    ai.update();
+  }
 
   function draw(){}
 
