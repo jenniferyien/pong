@@ -20,4 +20,14 @@ describe("pong game", function(){
       expect(typeof ball).toEqual('object');
     });
   });
+
+  describe("key press function", function(){
+    it("should have keycode defined for key activity", function(){
+      expect(upArrow).toEqual(38);
+      expect(downArrow).toEqual(40);
+    })
+    it("should update player action", function(){
+      expect(typeof player.update).toEqual('function')
+    })
+  })
 });

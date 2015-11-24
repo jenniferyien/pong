@@ -1,4 +1,4 @@
-$(function(){
+// $(function(){
   //declaring variables
   var width=700, height=600, pi=Math.PI;
   var canvas, ctx, keystate;
@@ -11,7 +11,7 @@ $(function(){
     y: null,
     width: 20,
     height: 100,
-    //key functions for player 
+    //key functions for player
     update: function() {
       if (keystate[upArrow]){
         this.y -= 7;
@@ -125,4 +125,4 @@ $(function(){
   }
 
   main();
-});
+// });
