@@ -39,8 +39,35 @@
   ball = {
     x: null,
     y: null,
+    //velocity
+    vel: null,
     side: 20,
-    update: function() {},
+    //ball speed
+    speed: 5,
+    update: function() {
+      //position of ball
+      this.x += this.vel.x;
+      this.y += this.vel.y;
+
+      if (0 > this.y || this.y + this.side > height) {
+        //offset vall
+        var offset = this.vel.y < 0 ? 0 - this.y : height - (this.y + this.side);
+        this.y += 2 * offset;
+        this.vel.y *= -1;
+      }
+
+      //ball intersection a = first intersect b = second intersect
+      var intersect = function(ax, ay, aw, ah, bx, by, bw, bh){
+        return ax < (bx + bw) && ay < (by + bh) && bx < (ax + aw) && by < (ay + ah);
+      }
+
+      //paddle
+      var paddle = this.vel.x < 0 ? player: ai;
+      if(intersect(paddle.x, paddle.y, paddle.width, paddle.height, this.x, this.y, this.side, this.side)) {
+        this.vel.x *= -1;
+      }
+
+    },
     draw: function(){
       ctx.fillRect(this.x, this.y, this.side, this.side);
     }
@@ -87,6 +114,12 @@
 
     ball.x = (width - ball.side)/2;
     ball.y = (height - ball.side)/2;
+
+    //inital ball velocity
+    ball.vel = {
+      x: ball.speed,
+      y: 0
+    }
   }
 
   //calling update functions
