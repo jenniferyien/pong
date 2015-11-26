@@ -1,4 +1,4 @@
-// $(function(){
+$(function(){
   //declaring variables
   var width=700, height=600, pi=Math.PI;
   var canvas, ctx, keystate;
@@ -64,7 +64,15 @@
       //paddle
       var paddle = this.vel.x < 0 ? player: ai;
       if(intersect(paddle.x, paddle.y, paddle.width, paddle.height, this.x, this.y, this.side, this.side)) {
-        this.vel.x *= -1;
+        //creating an offset
+        this.x = paddle === player ? player.x + player.width : ai.x - this.side;
+        //height of paddle
+        var n = (this.y + this.side - paddle.y)/ (paddle.height + this.side);
+        //giving paddle ball interaction a angle in degrees
+        var phi = 0.25 * pi * (2 * n - 1);
+        // if statement within the equal
+        this.vel.x = (paddle === player ? 1 : -1) * this.speed * Math.cos(phi);
+        this.vel.y = this.speed * Math.sin(phi);
       }
 
     },
@@ -158,4 +166,4 @@
   }
 
   main();
-// });
+});
