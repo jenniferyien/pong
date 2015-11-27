@@ -30,7 +30,11 @@ $(function(){
     y: null,
     width: 20,
     height: 100,
-    update: function() {},
+    update: function() {
+      //computer follows the ball position
+      var destination = ball.y - (this.height - ball.side) * 0.5;
+      this.y += (destination - this.y) * 0.1;
+    },
     draw: function(){
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -43,7 +47,7 @@ $(function(){
     vel: null,
     side: 20,
     //ball speed
-    speed: 5,
+    speed: 12,
     update: function() {
       //position of ball
       this.x += this.vel.x;
