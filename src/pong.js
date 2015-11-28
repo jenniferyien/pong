@@ -48,6 +48,10 @@ $(function(){
     side: 20,
     //ball speed
     speed: 12,
+
+    serve: function(side){
+
+    },
     update: function() {
       //position of ball
       this.x += this.vel.x;
@@ -74,9 +78,20 @@ $(function(){
         var n = (this.y + this.side - paddle.y)/ (paddle.height + this.side);
         //giving paddle ball interaction a angle in degrees
         var phi = 0.25 * pi * (2 * n - 1);
+
+        var smash  = Math.abs(phi) > 0.2 * pi ? 1.5 : 1;
         // if statement within the equal
-        this.vel.x = (paddle === player ? 1 : -1) * this.speed * Math.cos(phi);
-        this.vel.y = this.speed * Math.sin(phi);
+        this.vel.x = smash * (paddle === player ? 1 : -1) * this.speed * Math.cos(phi);
+        this.vel.y = smash * this.speed * Math.sin(phi);
+      }
+
+      if(0 > this.x + this.side || this.x > width){
+        ball.x = (width - ball.side)/2;
+        ball.y = (height - ball.side)/2;
+        ball.vel = {
+          x: (paddle===player ? 1: -1) * ball.speed,
+          y: 0
+        }
       }
 
     },
