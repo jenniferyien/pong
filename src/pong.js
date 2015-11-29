@@ -15,10 +15,11 @@ $(function(){
     update: function() {
       if (keystate[upArrow]){
         this.y -= 7;
-      }
+      };
       if (keystate[downArrow]) {
         this.y += 7;
-      }
+      };
+      this.y = Math.max(Math.min(this.y, height - this.height), 0);
     },
     draw: function(){
       ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -34,6 +35,7 @@ $(function(){
       //computer follows the ball position
       var destination = ball.y - (this.height - ball.side) * 0.5;
       this.y += (destination - this.y) * 0.1;
+      this.y = Math.max(Math.min(this.y, height - this.height), 0);
     },
     draw: function(){
       ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -50,7 +52,15 @@ $(function(){
     speed: 12,
 
     serve: function(side){
+      var random = Math.random();
+      this.x = side === 1 ? player.x + player.width : ai.x - this.side;
+      this.y = (height - this.side) * random;
 
+      var phi = 0.1 * pi * (1 - 2 * random);
+      this.vel = {
+        x: side * this.speed * Math.cos(phi),
+        y: side * this.speed * Math.sin(phi)
+      }
     },
     update: function() {
       //position of ball
@@ -86,12 +96,7 @@ $(function(){
       }
 
       if(0 > this.x + this.side || this.x > width){
-        ball.x = (width - ball.side)/2;
-        ball.y = (height - ball.side)/2;
-        ball.vel = {
-          x: (paddle===player ? 1: -1) * ball.speed,
-          y: 0
-        }
+          this.serve(paddle===player ? 1: -1);
       }
 
     },
@@ -139,14 +144,7 @@ $(function(){
     ai.x = width - (player.width + ai.width);
     ai.y = (height - ai.height)/2;
 
-    ball.x = (width - ball.side)/2;
-    ball.y = (height - ball.side)/2;
-
-    //inital ball velocity
-    ball.vel = {
-      x: ball.speed,
-      y: 0
-    }
+    ball.serve(1);
   }
 
   //calling update functions
